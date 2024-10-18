@@ -1,0 +1,16 @@
+# This Dockerfile also uses the official Node.js image as a base, ensuring that all necessary libraries for the frontend are included. 
+# Similar to the backend, it sets the working directory in the container to /app for organization. 
+# The package.json file is copied first, and npm install is run to install all required packages for the frontend application. 
+# The container exposes port 3000, allowing users to access the frontend service from the outside. 
+# The CMD command starts the frontend application using npm when the container launches.
+
+
+
+
+FROM node:18.9.1
+WORKDIR /app
+COPY package.json . 
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm","start"]

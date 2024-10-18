@@ -1,0 +1,18 @@
+# This Dockerfile uses the official Node.js image as a base to ensure that the environment is optimized for running Node.js applications. 
+# It sets the working directory in the container to /app, keeping the application files organized within the container. 
+# By copying package.json first and then running npm install, we take advantage of Docker's layer caching, 
+# allowing for faster builds when only the application code changes. 
+# Finally, the container exposes port 5000 to the outside world, allowing other services or clients to communicate with the backend.
+# The CMD command launches the backend server by running index.js when the container starts.
+
+
+
+
+
+FROM node:18.9.1
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 5000
+CMD ["node", "index.js"]

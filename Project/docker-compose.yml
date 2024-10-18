@@ -1,0 +1,31 @@
+# This Docker Compose file specifies version 3.8 for compatibility and defines services for both the client and backend. 
+# The client service builds from the ./MERNAPP/client directory and maps port 3000 on the host to port 3000 in the container, 
+# allowing the frontend application to be accessed externally. It connects to a specified Docker network, 
+# and an environment variable REACT_APP_API_URL is set for API communication with the backend. 
+# The backend service builds from the ./MERNAPP/backend directory and similarly maps port 5000 for external access. 
+# It also connects to the same Docker network, sets NODE_ENV to development, and includes the MongoDB connection string as an environment variable. 
+# The backend service is configured to start after the client service to ensure proper initialization.
+version: '3.8'  
+services:
+  client:
+    build: ./MERNAPP/client  
+    ports:
+      - "3000:3000"  
+    networks:
+      - mern_network  
+    environment:
+      REACT_APP_API_URL: http://backend:5000  
+  backend:
+    build: ./MERNAPP/backend  
+    ports:
+      - "5000:5000"  
+    networks:
+      - mern_network  
+    environment:
+      NODE_ENV: development  
+      MONGO_URI: mongodb+srv://aleenaarif14:123@<cluster>.mongodb.net/yo?retryWrites=true&w=majority  
+    depends_on:
+      - client  
+networks:
+  mern_network:
+    driver: local  
